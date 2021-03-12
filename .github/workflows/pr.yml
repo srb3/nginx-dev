@@ -26,4 +26,4 @@ jobs:
       - name: check addons
         run: minikube addons list
       - name: test
-        run: kubectl exec curl -- curl -s nginx | grep "Welcome to nginx!"
+        run: kubectl exec deploy/curldeployment -- curl -s nginx | grep "Welcome to nginx!"

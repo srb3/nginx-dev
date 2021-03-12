@@ -53,7 +53,7 @@ spec:
         app: curl
     spec:
       containers:
-      - name: nginxcontainer
+      - name: curlcontainer
         image: radial/busyboxplus:curl
         command:
           - sleep
