@@ -23,3 +23,5 @@ jobs:
         run: kubectl apply -f deployment.yml 
       - name: check deployment
         run: kubectl describe deployment nginx-deployment
+      - name: get all pods
+        run: kubectl get pods -A
