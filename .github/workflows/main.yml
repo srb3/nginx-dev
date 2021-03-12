@@ -61,13 +61,7 @@ jobs:
       - name: Create tag
         uses: actions/github-script@v3
         with:
-          github-token: ${{ github.token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             ver=${{ needs.get-publish-version.outputs.ver }}
             echo $ver
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/",
-              sha: context.sha
-            })
