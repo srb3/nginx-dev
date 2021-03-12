@@ -21,4 +21,4 @@ jobs:
       - name: wait
         run: sleep 30
       - name: test
-        run: kubectl exec -i -t curl -- curl nginx | grep "Welcome to nginx!"
+        run: kubectl exec curl -- curl -s nginx | grep "Welcome to nginx!"
