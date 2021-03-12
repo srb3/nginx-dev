@@ -39,7 +39,7 @@ jobs:
       - name: debug publish
         id: debug-publish-version
         run: |
-          tag=$(echo ${{ steps.semver.outputs.semver }})"
+          tag=$(echo ${{ steps.semver.outputs.semver }})
           echo "TAG: $tag"
 
   out-test:
