@@ -61,7 +61,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            ver=needs.get-publish-version.outputs.ver
+            ver=${{ needs.get-publish-version.outputs.ver }}
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
