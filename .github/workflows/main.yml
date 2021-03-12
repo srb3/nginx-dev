@@ -37,6 +37,13 @@ jobs:
         id: get-publish-version
         run: echo "::set-output name=publish-version::${{ steps.semver.outputs.semver }}"
 
+  out-test:
+    name: test output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug
+        run: echo ${{ needs.get-publish-version.outputs.publish-version }}
+
 
   kube-test:
     name: setup env
