@@ -12,7 +12,7 @@ jobs:
       - name: Setup Minikube
         uses: manusa/actions-setup-minikube@v2.3.0
         with:
-          minikube version: 'v1.14.1'
+          minikube version: 'v1.18.1'
           kubernetes version: 'v1.20.2'
           github token: ${{ secrets.GITHUB_TOKEN }}
       - name: Check kube conf 
