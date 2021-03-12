@@ -1,0 +1,25 @@
+name: pr test
+
+on:
+  pull_request:
+    branches:
+      -main
+
+jobs:
+  deployment:
+    name: setup env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.3.0
+        with:
+          minikube version: 'v1.18.1'
+          kubernetes version: 'v1.20.2'
+      - name: deployment
+        run: kubectl apply -f deployment.yml 
+      - name: wait
+        run: sleep 30
+      - name: test
+        run: kubectl exec -i -t curl -- curl nginx | grep "Welcome to nginx!"
