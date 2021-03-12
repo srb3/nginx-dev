@@ -19,3 +19,7 @@ jobs:
         run: cat ~/.kube/config
       - name: Interact with the cluster
         run: kubectl get nodes
+      - name: deployment
+        run: kubectl apply -f deployment.yml 
+      - name: check deployment
+        run: kubectl describe deployment nginx-deployment
