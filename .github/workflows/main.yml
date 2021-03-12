@@ -45,6 +45,7 @@ jobs:
           echo ::set-output name=ver::$tag
 
   out-test:
+    needs: [get-publish-version]
     name: test output
     runs-on: ubuntu-latest
     steps:
@@ -53,6 +54,7 @@ jobs:
 
 
   tag-test:
+    needs: [get-publish-version, out-test]
     name: setup env
     runs-on: ubuntu-latest
     steps:
