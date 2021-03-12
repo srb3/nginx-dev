@@ -16,6 +16,7 @@ jobs:
           LATEST_VERSION=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r '.[0].name')
           [  "$LATEST_VERSION" = "null" ] && LATEST_VERSION="0.0.0"
           echo ::set-output name=latest_version_out::$LATEST_VERSION
+          echo "Latest version: $LATEST_VERSION"
           commit_message=$(echo ${{ github.event.head_commit.message }})
           echo "commit message is: $commit_message"
           echo $commit_message
@@ -35,6 +36,10 @@ jobs:
       - name: Get publish version
         id: get-publish-version
         run: echo "::set-output name=publish-version::${{ steps.semver.outputs.semver }}"
+     - name: debug publish version
+        id: debug-publish-version
+        run: echo "output: ${{ steps.semver.outputs.semver }}"
+
 
   kube-test:
     name: setup env
