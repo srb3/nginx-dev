@@ -1,13 +1,10 @@
-name: pr test
+name: PR Open
 
-on:
-  pull_request:
-    branches:
-      -main
+on: [pull_request]
 
 jobs:
   deployment:
-    name: setup env
+    name: setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,9 +14,16 @@ jobs:
         with:
           minikube version: 'v1.18.1'
           kubernetes version: 'v1.20.2'
+          github token: ${{ secrets.GITHUB_TOKEN }}
+      - name: create sa
+        run: kubectl create sa default
       - name: deployment
         run: kubectl apply -f deployment.yml 
       - name: wait
-        run: sleep 30
+        run: while [[ $(kubectl -n kube-system get pods -l k8s-app=kube-dns -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
+      - name: kpa
+        run: kubectl get pods -A
+      - name: check addons
+        run: minikube addons list
       - name: test
-        run: kubectl exec -i -t curl -- curl nginx | grep "Welcome to nginx!"
+        run: kubectl exec deploy/curldeployment -- curl -s nginx | grep "Welcome to nginx!"
