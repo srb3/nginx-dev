@@ -1,13 +1,10 @@
-name: pr test
+name: PR Open
 
-on:
-  pull_request:
-    branches:
-      -main
+on: [pull_request]
 
 jobs:
   deployment:
-    name: setup env
+    name: setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
