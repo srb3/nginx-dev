@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       publish-version: ${{ steps.get-publish-version.outputs.publish-version }}
+      ver: ${{ steps.get-ver.outputs.ver }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -37,51 +38,33 @@ jobs:
         id: get-publish-version
         run: echo "::set-output name=publish-version::${{ steps.semver.outputs.semver }}"
       - name: debug publish
-        id: debug-publish-version
+        id: get-ver
         run: |
           tag=$(echo ${{ steps.semver.outputs.semver }})
           echo "TAG: $tag"
+          echo ::set-output name=ver::$tag
 
   out-test:
     name: test output
     runs-on: ubuntu-latest
     steps:
       - name: Debug
-        run: echo ${{ needs.get-publish-version.outputs.publish-version }}
+        run: echo ${{ needs.get-publish-version.outputs.ver }}
 
 
-  kube-test:
+  tag-test:
     name: setup env
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.0
-        with:
-          minikube version: 'v1.18.1'
-          kubernetes version: 'v1.20.2'
-          github token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check kube conf 
-        run: cat ~/.kube/config
-      - name: Interact with the cluster
-        run: kubectl get nodes
-      - name: deployment
-        run: kubectl apply -f deployment.yml 
-      - name: wait
-        run: sleep 30
-      - name: check deployment
-        run: kubectl describe deployment nginx-deployment
-      - name: get all pods
-        run: kubectl get pods -A
       - name: Create tag
         uses: actions/github-script@v3
         with:
           github-token: ${{ github.token }}
           script: |
+            ver=needs.get-publish-version.outputs.ver
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/${{needs.get-publish-version.outputs.publish-version}}",
+              ref: "refs/tags/$ver",
               sha: context.sha
             })
