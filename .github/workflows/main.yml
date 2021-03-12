@@ -15,6 +15,7 @@ jobs:
           minikube version: 'v1.14.1'
           kubernetes version: 'v1.20.2'
           github token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Interact with the cluster
+      - name: Check kube conf 
         run: cat ~/.kube/config
+      - name: Interact with the cluster
         run: kubectl get nodes
