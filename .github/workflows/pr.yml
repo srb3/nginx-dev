@@ -20,5 +20,7 @@ jobs:
         run: kubectl apply -f deployment.yml 
       - name: wait
         run: sleep 30
+      - name: kpa
+        run: kubectl get pods -A
       - name: test
         run: kubectl exec curl -- curl -s nginx | grep "Welcome to nginx!"
