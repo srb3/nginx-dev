@@ -36,7 +36,7 @@ jobs:
       - name: Get publish version
         id: get-publish-version
         run: echo "::set-output name=publish-version::${{ steps.semver.outputs.semver }}"
-     - name: debug publish version
+      - name: debug publish version
         id: debug-publish-version
         run: echo "output: ${{ steps.semver.outputs.semver }}"
 
