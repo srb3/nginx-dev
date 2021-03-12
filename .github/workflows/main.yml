@@ -16,4 +16,5 @@ jobs:
           kubernetes version: 'v1.20.2'
           github token: ${{ secrets.GITHUB_TOKEN }}
       - name: Interact with the cluster
+        run: cat ~/.kube/config
         run: kubectl get nodes
