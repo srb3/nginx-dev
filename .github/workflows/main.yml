@@ -21,6 +21,8 @@ jobs:
         run: kubectl get nodes
       - name: deployment
         run: kubectl apply -f deployment.yml 
+      - name: wait
+        run: sleep 30
       - name: check deployment
         run: kubectl describe deployment nginx-deployment
       - name: get all pods
