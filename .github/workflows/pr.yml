@@ -18,5 +18,7 @@ jobs:
         run: kubectl get pods -A
       - name: check addons
         run: minikube addons list
+      - name: wait
+        run: while [[ $(kubectl -n default get pods -l app=curl -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
       - name: test
         run: kubectl exec deploy/curldeployment -- curl -s nginx | grep "Welcome to nginx!"
