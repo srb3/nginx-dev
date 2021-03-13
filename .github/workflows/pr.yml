@@ -9,13 +9,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: minikube
-        uses: opsgang/ga-setup-minikube@v0.1.1
-        with:
-          minikube-version: '1.18.0'
-          k8s-version: '1.20.2'
-      - name: start minikube
-        run: minikube start
+      - name: start minikube 
+        id: minikube
+        uses: medyagh/setup-minikube@master
       - name: create sa
         run: kubectl create sa default
       - name: deployment
