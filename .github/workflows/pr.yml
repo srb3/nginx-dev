@@ -5,16 +5,17 @@ on: [pull_request]
 jobs:
   deployment:
     name: setup
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Minikube
-        uses: manusa/actions-setup-minikube@v2.3.0
+      - name: minikube
+        uses: opsgang/ga-setup-minikube@v0.1.1
         with:
-          minikube version: 'v1.18.1'
-          kubernetes version: 'v1.20.2'
-          github token: ${{ secrets.GITHUB_TOKEN }}
+          minikube-version: 'v1.18.0'
+          k8s-version: '1.20.2'
+      - name: start minikube
+        run: minikube start
       - name: create sa
         run: kubectl create sa default
       - name: deployment
