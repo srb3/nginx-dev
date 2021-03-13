@@ -12,12 +12,8 @@ jobs:
       - name: start minikube 
         id: minikube
         uses: medyagh/setup-minikube@master
-      - name: create sa
-        run: kubectl create sa default
       - name: deployment
         run: kubectl apply -f deployment.yml 
-      - name: wait
-        run: while [[ $(kubectl -n kube-system get pods -l k8s-app=kube-dns -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do echo "waiting for pod" && sleep 1; done
       - name: kpa
         run: kubectl get pods -A
       - name: check addons
